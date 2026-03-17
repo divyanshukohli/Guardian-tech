@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+        integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css">
+    <title>Emergency, Panic, and Location</title>
+    <style>
+
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+        /* Navbar\ styling */
+        *{
+           margin:0;
+            padding:0 ;
+            box-sizing: border-box;
+            font-family:'Poppins',snas-serif;
+            
+        }
+
+        /*.navbar { --> -->
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 20px;
+            background-color: #333;
+            color: white;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            left: 0;
+            z-index: 1;
+        }
+
+        /* Navbar links */
+        .nav-links {
+            display: flex;
+            gap: 15px;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-size: 16px;
+            padding: 8px 16px;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+        }
+
+        /* Active link styling */
+        .nav-links a.active,
+        .nav-links a:hover {
+            background-color: #555;
+        }
+
+        /* Profile section */
+        .profile {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .profile img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+        }
+
+        /* Dropdown container */
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        /* Dropdown content */
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            right: 0;
+            background-color: #333;
+            min-width: 160px;
+            box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+            z-index: 1;
+        }
+
+        .dropdown-content a {
+            color: white;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+        }
+
+        .dropdown-content a:hover {
+            background-color: #555;
+        }
+
+        /* Show the dropdown on hover */
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+        /* Offset the content below the navbar */
+        body {
+            margin-top: 70px;
+            background-color: #f2f2f2;
+        }
+        .slide{
+            height: 100%;
+            width: 180px;
+            position: absolute;
+            background-color: #fff;
+            transition: 0.5s ease;
+            transform:translateX(-180px);
+        }
+        h1{
+            color:#8000ff;
+            font-weight: 800;
+            text-align: right;
+            padding: 10px 0;
+            padding-right: 30px;
+            pointer-events: none;
+        }
+        ul li{
+            list-style: none;
+        }
+        ul li a{
+            color: #011a41;
+            font-weight: 500;
+            padding: 5px 0;
+            display: block;
+            text-transform: capitalize;
+            text-decoration: none;
+            transition: 0.2s ease-out;
+        }
+
+        ul li a i{
+            width: 40px;
+            text-align: center;
+        }
+
+
+        /* Basic styling for buttons */
+        .button {
+            padding: 15px 30px;
+            font-size: 16px;
+            font-weight: bold;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            margin: 20px;
+            width: 200px;
+            margin-left: 50%;
+        }
+
+        /* Emergency button styling */
+        .emergency-button {
+            background-color: orange;
+            border-radius: 500px;
+        }
+
+        /* Panic button styling */
+        .panic-button {
+            background-color: red;
+            border-radius: 500px;
+        }
+
+        /* Styling for input fields and labels */
+        .input-container {
+            margin: 20px 0;
+        }
+
+        label {
+            font-size: 16px;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+
+        input{
+            display:none;
+            visibility: hidden ;
+            -webkit-appearance: none;
+
+        }
+
+        .toggle{
+            position: absolute;
+            height: 30px;
+            width: 30px;
+            top: 20px;
+            left: 15px;
+            z-index:1 ;
+            cursor: pointer;
+            border-radius: 2px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0,0,0,0.3);
+        }
+
+        .toggle .common{
+            position: absolute;
+            height: 2px ;
+            width: 20px ;
+            background-color: #8000ff;
+            border-radius: 50px;
+            transition: 0.3s ease;
+        }
+        
+        .toggle .top_line{
+            top:30%;
+            left:50%;
+            transform: translate(-50%,-50%);
+        }
+
+        .toggle .middle_line{
+            top:50%;
+            left:50%;
+            transform: translate(-50%,-50%);
+        }
+
+        .toggle .bottom_line{
+            top:70%;
+            left:50%;
+            transform: translate(-50%,-50%);
+        }
+
+        input:checked~ .toggle .top_line{
+            left: 2px;
+            top: 14px;
+            width: 25px;
+            transform: rotate(45deg);
+
+        }
+
+        input:checked~ .toggle .bottom_line{
+            left: 2px;
+            top: 14px;
+            width: 25px;
+            transform: rotate(-45deg);
+            
+        }
+
+        input:checked~ .toggle .middle_line{
+            left: 2px;
+            top: 14px;
+            width: 25px;
+            transform: translateX(20px);
+        }
+
+        input:checked ~ .slide{
+            transform:translateX(0);
+            box-shadow: 0 0 15px rgba(0,0,0,0.5);
+        }
+
+            
+
+        input[type="text"] {
+            padding: 10px;
+            font-size: 14px;
+            width: 300px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        /* Map container */
+        #map {
+            height: 500px;
+            width: 100%;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <label>
+        <input type="checkbox">
+        <div class="toggle">
+            <span class="top_line common"></span>
+            <span class="middle_line common"></span>
+            <span class="bottom_line common"></span>
+        </div>
+
+
+    <!-- Navbar -->
+    <!-- <div class="navbar"> -->
+        <div class="slide">
+    
+            <h1>MENU</h1>
+            <ul>
+                <li><a href="#"><i class="fa-solid fa-house"></i>Home</a></li>
+                <li><a href="#"><i class="fa-solid fa-right-to-bracket"></i>Login</a></li>
+                <li><a href="#"><i class="fa-solid fa-user"></i>About us</a></li>
+                <li><a href="#"><i class="fa-solid fa-gear"></i>Setting</a></li>
+                <li><a href="#"><i class="fa-solid fa-comment"></i>Feedback</a></li>
+            </ul>
+        </div>
+        <!-- <div class="profile"> -->
+            <!-- <img src="https://via.placeholder.com/40" alt="User Profile"> -->
+            <!-- <span class="profile-name">User Name</span> -->
+            <!-- <div class="dropdown"> -->
+                <!-- <i class="fas fa-ellipsis-v"></i> -->
+                <!-- <div class="dropdown-content"> -->
+                    <!-- <a href="#">Profile</a> -->
+                    <!-- <a href="#">Settings</a> -->
+                    <!-- <a href="#">Logout</a> -->
+                <!-- </div> -->
+            <!-- </div> -->
+        <!-- </div> -->
+    <!-- </div> -->
+
+    <!-- Emergency and Panic Buttons -->
+    <button class="button emergency-button" onclick="handleEmergency()">Emergency</button>
+    <button class="button panic-button" onclick="handlePanic()">Panic</button>
+
+    <!-- Location Input Fields -->
+    <h2>Enter Locations</h2>
+    <div class="input-container">
+        <label for="initial-location">Initial Location:</label>
+        <input type="text" id="initial-location" placeholder="Fetching current location...">
+    </div>
+    <div class="input-container">
+        <label for="final-location">Final Location:</label>
+        <input type="text" id="final-location" placeholder="Enter final location">
+    </div>
+
+    <!-- Google Map -->
+    <h2>My Google Map</h2>
+    <div id="map"></div>
+
+    <!-- JavaScript -->
+    <script>
+        // Emergency and Panic button functions
+        function handleEmergency() {
+            alert("Emergency button clicked!");
+        }
+
+        function handlePanic() {
+            alert("Panic button clicked!");
+        }
+
+        // Geolocation to set the initial location
+        function setCurrentLocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(showPosition, showError);
+            } else {
+                document.getElementById("initial-location").placeholder = "Geolocation is not supported by this browser.";
+            }
+        }
+
+        // Display the current position
+        function showPosition(position) {
+            const latitude = position.coords.latitude;
+            const longitude = position.coords.longitude;
+            document.getElementById("initial-location").value = `Lat: ${latitude}, Lon: ${longitude}`;
+        }
+
+        // Error handling for Geolocation
+        function showError(error) {
+            switch (error.code) {
+                case error.PERMISSION_DENIED:
+                    document.getElementById("initial-location").placeholder = "User denied the request for Geolocation.";
+                    break;
+                case error.POSITION_UNAVAILABLE:
+                    document.getElementById("initial-location").placeholder = "Location information is unavailable.";
+                    break;
+                case error.TIMEOUT:
+                    document.getElementById("initial-location").placeholder = "The request to get user location timed out.";
+                    break;
+                case error.UNKNOWN_ERROR:
+                    document.getElementById("initial-location").placeholder = "An unknown error occurred.";
+                    break;
+            }
+        }
+
+        // Initialize map
+        function initMap() {
+            const location = { lat: -34.397, lng: 150.644 };
+            const map = new google.maps.Map(document.getElementById("map"), {
+                zoom: 8,
+                center: location,
+            });
+            new google.maps.Marker({
+                position: location,
+                map: map,
+            });
+        }
+
+        // Call setCurrentLocation on page load
+        window.onload = setCurrentLocation;
+    </script>
+
+    <!-- Google Maps JavaScript API (Replace YOUR_API_KEY with your actual API key) -->
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCouuggKN1zEBzqKN70tHwDrpZJRxKTtlU&callback=initMap" async defer></script>
+
+</body>
+
+</html>
